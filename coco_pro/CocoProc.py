@@ -1,9 +1,4 @@
 
-
-'''
-根据图片和coco标注文件绘制标注结果
-
-'''
 import json
 import numpy as np
 import cv2
@@ -89,27 +84,25 @@ class CocoProc:
 
         return  drawed_img
 
-    def set_coco_anno(self,src_json_path, target_img_path):
-        '''
-        func : set single image json file
-        src_json_path : 需要迁移的json标注文件
-        target_img_path : 迁移json标注信息的到指定目标图像
-        '''
+    def set_img_coco_anno(self,src_json_path, target_img_path):
+        """将json文件标签设置到指定图像文件
+
+        Args:
+            src_json_path : 需要迁移的json标注文件
+            target_img_path : 迁移json标注信息的到指定目标图像
+        Return:
+            None
+        """
 
         with open(src_json_path, "r") as f:
             data = json.load(f)
-
             if not os.path.exists(target_img_path):
                 print(f"{target_img_path} not exist!!!")
 
             # 替换imageData,imagePath
             img_name = Path(target_img_path).name
-            
-            # data["imageWidth"] = 
-            # data["imageHeight"] = 
             data["imagePath"] = img_name
             data["imageData"] = self._calc_imageDate(target_img_path)
-
             # 保存json
             new_json_path = Path(target_img_path).with_suffix('.json')
             with open(new_json_path, "w") as f:
