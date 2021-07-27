@@ -102,7 +102,7 @@ class CocoProc:
             # 替换imageData,imagePath
             img_name = Path(target_img_path).name
             data["imagePath"] = img_name
-            data["imageData"] = self._calc_imageDate(target_img_path)
+            data["imageData"] = self._calc_imagedate(target_img_path)
             # 保存json
             new_json_path = Path(target_img_path).with_suffix('.json')
             with open(new_json_path, "w") as f:
@@ -134,8 +134,17 @@ class CocoProc:
                 print("no utf-8 decode ")
             data = json.load(open(json_file_path, "r"))
             code = "no utf-8"
-
         return data, code
+
+    def gen_label_txt(self, cls_array:np.array, save_file_name:str):
+        # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
+        with open(save_file_name,'w') as f: 
+            f.write( "__ignore__\n")  # 末尾”\n“表示换行
+            for i, cls in enumerate(cls_array):
+                if i == len(cls_array)-1:
+                    f.write(cls)    #末行去除空格
+                else:
+                    f.write(cls+"\n")    #末尾”\n“表示换行
 
     def transfer_to_utf8(self, json_file_path):
         """将json文件编码转为utf-8编码
