@@ -1,2 +1,2 @@
 # python_package
-常用python功能脚本
+常用的处理labelme标注json文件的python功能脚本
